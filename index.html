@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build a Nest - Next Generation Researcher Statement</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            .image-placeholder {
+                height: 250px;
+            }
+            
+            .footer {
+                margin-top: 60px;
+            }
+        }
+        
+        body {
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 200;
+            font-size: 15px;
+            line-height: 1.9;
+            color: #ffffff;
+            background: #0a0a0a;
+            background-image: 
+                url('https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif'),
+                radial-gradient(circle at 25% 25%, rgba(50, 50, 50, 0.4) 0%, transparent 60%),
+                radial-gradient(circle at 75% 75%, rgba(70, 70, 70, 0.3) 0%, transparent 60%),
+                linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
+            background-size: cover, 800% 800%, 800% 800%, 100% 100%;
+            background-position: center, 0% 50%, 0% 50%, center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            animation: backgroundShift 25s ease-in-out infinite;
+            letter-spacing: 0.06em;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: left;
+            margin-bottom: 80px;
+        }
+        
+        .header-name {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            color: #bbbbbb;
+            letter-spacing: 0.4em;
+            margin-bottom: 35px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
+            position: relative;
+        }
+        
+        .header-name::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #bbbbbb, transparent);
+            animation: lineExpand 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s forwards;
+        }
+        
+        @keyframes lineExpand {
+            to { width: 60px; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 52px;
+            font-weight: 100;
+            margin-bottom: 20px;
+            letter-spacing: 0.15em;
+            color: #ffffff;
+            opacity: 0;
+            animation: fadeInUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards, float 6s ease-in-out 3s infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 19px;
+            font-weight: 300;
+            color: #e0e0e0;
+            letter-spacing: 0.08em;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.5s forwards;
+        }
+        
+        .intro-text {
+            font-size: 17px;
+            font-weight: 300;
+            color: #f0f0f0;
+            max-width: 650px;
+            line-height: 2.1;
+            margin-bottom: 70px;
+            opacity: 0;
+            animation: fadeInUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) 2s forwards;
+        }
+        
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 60px;
+            margin: 50px 0;
+            align-items: start;
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .content-section.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .content-section.reverse {
+            grid-template-columns: 300px 1fr;
+        }
+        
+        .text-content {
+            max-width: none;
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(60, 60, 60, 0.9), rgba(40, 40, 40, 0.95));
+            border: 1px solid #666666;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaaaaa;
+            font-size: 12px;
+            text-align: center;
+            position: relative;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.8) rotateY(25deg);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1) 1s;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            animation: glow 4s ease-in-out infinite;
+        }
+        
+        .animate .image-placeholder {
+            opacity: 1;
+            transform: scale(1) rotateY(0deg);
+        }
+        
+        .image-placeholder:hover {
+            transform: scale(1.05) rotateY(-2deg);
+            border-color: #888888;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            background: linear-gradient(135deg, rgba(70, 70, 70, 0.95), rgba(50, 50, 50, 1));
+        }
+        
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border: 2px solid #888888;
+            border-radius: 50%;
+            animation: pulse 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+        
+        .image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #888888, #aaaaaa);
+            border-radius: 6px;
+            animation: rotate 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        
+        .single-column {
+            margin: 50px 0;
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .single-column.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2 {
+            font-size: 26px;
+            font-weight: 300;
+            margin: 50px 0 30px 0;
+            letter-spacing: 0.06em;
+            color: #ffffff;
+            border-bottom: 1px solid #444444;
+            padding-bottom: 15px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
+            position: relative;
+        }
+        
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, transparent);
+            transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s;
+        }
+        
+        .animate h2 {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .animate h2::before {
+            width: 80px;
+        }
+        
+        h3 {
+            font-size: 19px;
+            font-weight: 300;
+            margin: 35px 0 18px 0;
+            letter-spacing: 0.04em;
+            color: #f5f5f5;
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s;
+        }
+        
+        .animate h3 {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        p {
+            margin-bottom: 22px;
+            text-align: left;
+            font-weight: 300;
+            color: #e5e5e5;
+            line-height: 2.0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s;
+        }
+        
+        .animate p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .emphasis {
+            font-weight: 400;
+            color: #ffffff;
+            background: linear-gradient(transparent 50%, rgba(255, 255, 255, 0.15) 50%);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        
+        .emphasis::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ffffff;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .emphasis:hover {
+            background: linear-gradient(transparent 40%, rgba(255, 255, 255, 0.25) 40%);
+            transform: translateY(-1px);
+        }
+        
+        .emphasis:hover::after {
+            width: 100%;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-weight: 300;
+            color: #cccccc;
+            margin: 30px 0;
+            padding: 25px 0 25px 35px;
+            border-left: 3px solid #666666;
+            line-height: 2.1;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s ease-out 0.5s;
+            position: relative;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.5), rgba(15, 15, 15, 0.7));
+            border-radius: 0 8px 8px 0;
+            backdrop-filter: blur(8px);
+        }
+        
+        .quote::before {
+            content: '"';
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            font-size: 40px;
+            color: #666666;
+            line-height: 1;
+        }
+        
+        .animate .quote {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(50, 50, 50, 0.8), rgba(30, 30, 30, 0.9));
+            border: 1px solid #555555;
+            padding: 35px;
+            margin: 35px 0;
+            border-radius: 8px;
+            font-weight: 300;
+            color: #f0f0f0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transition: left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .highlight-box:hover::before {
+            left: 100%;
+        }
+        
+        .highlight-box:hover {
+            border-color: #777777;
+            background: linear-gradient(135deg, rgba(60, 60, 60, 0.8), rgba(40, 40, 40, 0.9));
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        }
+        
+        .process-description {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+            border: 1px solid #404040;
+            padding: 35px;
+            margin: 30px 0;
+            border-radius: 8px;
+            font-weight: 200;
+            font-size: 13px;
+            line-height: 2.0;
+            color: #cccccc;
+            backdrop-filter: blur(12px);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 60px 0;
+            color: #666666;
+            font-size: 14px;
+            letter-spacing: 0.5em;
+            opacity: 0.7;
+            animation: breathe 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+        }
+        
+        .concept-title {
+            font-size: 28px;
+            font-weight: 100;
+            text-align: left;
+            margin: 60px 0 40px 0;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .concept-title.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+            border: 1px solid #333333;
+            padding: 40px;
+            margin: 50px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            line-height: 2.2;
+            color: #f0f0f0;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+            backdrop-filter: blur(20px);
+        }
+        
+        .conclusion.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .image-caption {
+            font-size: 11px;
+            color: #aaaaaa;
+            text-align: center;
+            margin-top: 15px;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+        }
+        
+        @media (max-width: 968px) {
+            .content-section,
+            .content-section.reverse {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .image-placeholder {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            body {
+                font-size: 13px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            .concept-title {
+                font-size: 24px;
+            }
+            
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #333333;
+        }
+        
+        .footer-text {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            color: #888888;
+            letter-spacing: 0.25em;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-out 3.5s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-name">Tsubasa SATO 2025</div>
+            <h1>Build a Nest</h1>
+            <div class="subtitle">次世代研究者に求められる新たな力</div>
+            <div class="intro-text">
+                研究を進める力から，新たな研究領域を開拓する力へ．<br>
+                巣立った後に求められるのは，新たな巣を築く力である．<br>
+                我々が目指すべきは，単なる巣立ちではなく，<br>
+                未来を見据えた研究能力の育成．
+            </div>
+        </div>
+        
+        <div class="divider">・ ・ ・ ・ ・</div>
+        
+        <div class="single-column">
+            <h2>はじめに：「巣立ち」から「巣作り」へ</h2>
+            <p>ADvance Atomのように、自分で解像度の高い研究計画を立てて実行できる段階を目指している次々世代研究者もいる。しかし、ADvance Labには、すでにリバネスと出会う前からそれらを自ら実行できる研究員も存在している。</p>
+            
+            <p>こうした研究者は、もはや<span class="emphasis">「Leave a Nest」</span>する力は十分に備えている。では、このような次世代研究者に今求められている力とは何だろうか。それは<span class="emphasis">「Build a Nest」</span>する力である。</p>
+            
+            <div class="quote">
+                巣立って自らの森に帰った後、その森で巣作りできるようになって、ようやく一人前の研究者と言えるのではないだろうか。
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="text-content">
+                <h2>次世代による次世代のための研究所</h2>
+                
+                <h3>なぜ次世代研究者が運営するのか</h3>
+                <p>研究計画の立て方や論文の書き方については、教授の方が確実に指導力がある。それでは、なぜ我々次世代研究者による次世代研究者、ひいては次々世代研究者のための研究所を運営するのか。</p>
+                
+                <h3>純粋な好奇心という原動力</h3>
+                <p>次世代研究者には、プログラムの一環として研究してきたわけではない、持ち前の突破力と行動力、そして溢れんばかりの情熱を持つ馬力の強い人材が多い。次世代を突き動かすのは<span class="emphasis">純粋な好奇心</span>だ。</p>
+                
+                <div class="highlight-box">
+                    この姿勢は非常に重要である。いつになっても出会った事象にワクワクする経験は、研究において欠かせない要素だ。働くために食うのでも、食うために働くわけでもなく、研究が好きだから食うし働く——そうした姿勢を、年が近く身近な存在であるからこそ、自分と照らし合わせて自分主語で語れるようになりやすい。
+                </div>
+                
+                <h3>身近な学びと新しい視座</h3>
+                <p>巣立った後、どういう力が巣作り力や動機につながるのか、その姿勢をより身近に、目の前のこととして学べることが重要である。さらに、次世代が次世代と意見を交換することは新しい視座を得られるだけでなく、行き詰まった時に初心に戻ることで面白いアイデアが湧いてくることもある。</p>
+                
+                <div class="quote">
+                    これらの教育指導法は、我々次世代にしかできない。
+                </div>
+            </div>
+            
+            <div class="image-placeholder">
+                <div class="image-caption">Research Philosophy<br>研究哲学の体系</div>
+            </div>
+        </div>
+        
+        <div class="content-section reverse">
+            <div class="image-placeholder">
+                <div class="image-caption">Spiral Staircase<br>好奇心の螺旋階段</div>
+            </div>
+            
+            <div class="text-content">
+                <h2>副所長としての役割と哲学</h2>
+                
+                <h3>私が担う三つの役目</h3>
+                <p>私自身の副所長としてのメインの役目は以下の通りである：</p>
+                <div class="highlight-box">
+                    <strong>1. 客観的に見た研究計画の解像度を高めること</strong><br><br>
+                    <strong>2. 研究を進めるための手順の明確化</strong><br><br>
+                    <strong>3. 自分との対話の機会の推奨</strong>
+                </div>
+                
+                <h3>未来実現のためのプロセス</h3>
+                <div class="process-description">
+                    私の考える未来実現のためのプロセスは次のようなものだ。<br><br>
+                    
+                    まず、自分がこれから生きていくフィールド（分野）を決める。そこに好奇心という名の一本の図太くしなやかで、決して折れない<span class="emphasis">「軸」</span>を杭のように盤石な地面（学問領域）に突き刺す。そして、その軸に知識という名の<span class="emphasis">「板」</span>を興味という<span class="emphasis">「釘」</span>で強固に打ち付けることで螺旋階段となった自分の人生を登っていく。<br><br>
+                    
+                    ここで述べた自分自身の好奇心という軸や、自分自身の本当の興味が何なのかをはっきりさせるには長い時間が必要である。この自分との対話を行う上で、ADvance Labは適切な環境であると思う。
+                </div>
+                
+                <h3>ADvance Labの価値</h3>
+                <p>研究内容に関する質問についていつでも聞ける環境、実験に漕ぎ着くことができる環境が整っているため、科学技術の発展に寄与しうる。さらに、思いついた実装可能なアイデアをリバネスやイノビジョンを介して企業とコラボレーションすることで、地球貢献にもつながると考える。</p>
+            </div>
+        </div>
+        
+        <div class="divider">・ ・ ・ ・ ・</div>
+        
+        <div class="content-section">
+            <div class="text-content">
+                <h2>ADvance Lab運営の理想的なスタイル</h2>
+                
+                <h3>自分主語で語れる研究者の育成</h3>
+                <p>ADvance Labは自分主語で次世代研究者が語れるようになることを目指している。そのため、基本的にイベントの運営は、運営をしたい研究者も交えて行う。</p>
+                
+                <h3>所長と副所長の役割分担</h3>
+                <p><strong>所長</strong>はラボ運営の方針や承認を行う要である。これがなくてはラボはうまくまとまらないだろう。</p>
+                
+                <div class="highlight-box">
+                    では、<strong>副所長</strong>は何をすべきなのか。私はこう考える——研究を今までゴリゴリに進めてきた馬力のあるやつが、自分の軸と哲学を持って自身の研究を自らどんどん進めていっている姿勢を次世代に見せることで、迷走してフェードアウトするのではなく、正しい研究への姿勢を持てるように手助けすることである。
+                </div>
+            </div>
+            
+            <div class="image-placeholder">
+                <div class="image-caption">Laboratory Structure<br>ラボ運営の構造</div>
+            </div>
+        </div>
+        
+        <div class="content-section reverse">
+            <div class="image-placeholder">
+                <div class="image-caption">Space Migration<br>宇宙移住の展望</div>
+            </div>
+            
+            <div class="text-content">
+                <h2>宇宙部門アゴラの重要性</h2>
+                
+                <h3>分野横断的議論の課題</h3>
+                <p>ADvance Labは分野を指定したメンバーが集ったわけではなく、研究が好きでやりたい人たちが集まってきている。だからこそ、皆で一つの議論をするとなった時に、お互いの造詣の深い分野を簡単に融合することは難しい。</p>
+                
+                <h3>アジェンダセッティングの重要性</h3>
+                <p>このような議論を進める上で重要となってくるのが<span class="emphasis">アジェンダセッティング</span>である。さまざまな分野の研究員が同じ議題に高い解像度で実装可能なアイデアを提案できるものとして、<span class="emphasis">宇宙移住型社会の実装</span>は非常に有効であると思う。</p>
+                
+                <h3>宇宙移住というテーマの価値</h3>
+                <div class="process-description">
+                    社会を作るにあたって、今地球で生じている課題が次は起こらないように未然に議論することができる。自然科学に境界はない——それぞれの分野が複雑に干渉しあって成り立っている。宇宙移住にはそれらの複雑系へのアプローチや理解を深めることが重要であるため、効果的にお互いの意見を言い合うことができる。
+                </div>
+                
+                <h3>ADvance Labの自由帳としての役割</h3>
+                <p>このようなADvance Labの自由帳のような大切な役割を担っているのが、私が昨年度からコミットしている宇宙部門である。ここでは、異なる専門分野を持つ研究者たちが、共通の壮大なテーマの下で創造的な議論を展開し、新たな価値を生み出していく場となっている。</p>
+            </div>
+        </div>
+        
+        <div class="divider">・ ・ ・ ・ ・</div>
+        
+        <div class="concept-title">結論：次世代研究者の使命</div>
+        
+        <div class="conclusion">
+            Build a Nestとは、単に研究を続けることではない。それは、自らの好奇心を軸とし、知識と興味を積み重ねながら、次の世代が安心して研究に打ち込める環境を作り上げることである。我々次世代研究者には、その責任と可能性が託されている。<br><br>
+            
+            研究の森で新たな巣を築く——それは個人の成長を超えた、学術コミュニティ全体への貢献である。我々は巣立つだけでなく、後に続く者たちのための道筋を示し、彼らが安心して羽ばたける環境を整える使命を負っている。
+        </div>
+        
+        <div class="footer">
+            <div class="footer-text">Nature to Tech, Tech to Nature.<sup>®</sup></div>
+        </div>
+    </div>
+    
+    <script>
+        // Intersection Observer for scroll-based animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all animatable elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatableElements = document.querySelectorAll(
+                '.content-section, .single-column, .concept-title, .conclusion'
+            );
+            
+            animatableElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Parallax effect for background
+            let ticking = false;
+            
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.body;
+                const speed = scrolled * 0.5;
+                
+                parallax.style.backgroundPosition = `center ${speed}px`;
+                ticking = false;
+            }
+            
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick);
+            
+            // Smooth reveal of images with stagger
+            const images = document.querySelectorAll('.image-placeholder');
+            images.forEach((img, index) => {
+                img.style.transitionDelay = `${0.6 + index * 0.1}s`;
+            });
+            
+            // Add scroll progress indicator
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 3px;
+                background: linear-gradient(90deg, #666, #fff, #ccc);
+                z-index: 1000;
+                transition: width 0.1s ease;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            `;
+            document.body.appendChild(progressBar);
+            
+            window.addEventListener('scroll', () => {
+                const scrollProgress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                progressBar.style.width = scrollProgress + '%';
+            });
+        });
+    </script>
+</body>
+</html>

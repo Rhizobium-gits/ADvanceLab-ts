@@ -190,6 +190,43 @@
             backdrop-filter: blur(15px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             animation: glow 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+        
+        .image-placeholder img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .image-placeholder:hover img {
+            transform: scale(1.05);
+        }
+        
+        .spiral-staircase::before,
+        .spiral-staircase::after,
+        .space-migration::before,
+        .space-migration::after,
+        .research-philosophy::before,
+        .research-philosophy::after,
+        .laboratory-structure::before,
+        .laboratory-structure::after {
+            display: none;
+        }
+        
+        .research-philosophy {
+            width: 300px;
+            height: 450px;
+        }
+        
+        .laboratory-structure {
+            width: 300px;
+            height: 270px;
         }
         
         .animate .image-placeholder {
@@ -503,6 +540,11 @@
             margin-top: 15px;
             letter-spacing: 0.05em;
             font-weight: 300;
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
         }
         
         @media (max-width: 968px) {
@@ -569,10 +611,10 @@
             <h1>Build a Nest</h1>
             <div class="subtitle">次世代研究者に求められる新たな力</div>
             <div class="intro-text">
-                研究を進める力から，新たな研究領域を開拓する力へ．<br>
+                研究を進める力から，研究環境を創造する力へ．<br>
                 巣立った後に求められるのは，新たな巣を築く力である．<br>
-                我々が目指すべきは，単なる巣立ちではなく，<br>
-                未来を見据えた研究能力の育成．
+                我々が目指すべきは，単なる研究の継続ではなく，<br>
+                次世代が安心して探求できる場の構築なのだ．
             </div>
         </div>
         
@@ -611,13 +653,15 @@
                 </div>
             </div>
             
-            <div class="image-placeholder">
+            <div class="image-placeholder research-philosophy">
+                <img src="https://raw.githubusercontent.com/Rhizobium-gits/ADvanceLab-ts/main/ChatGPT%20Image%202025%E5%B9%B46%E6%9C%8812%E6%97%A5%2017_49_01.png" alt="研究哲学の体系" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                 <div class="image-caption">Research Philosophy<br>研究哲学の体系</div>
             </div>
         </div>
         
         <div class="content-section reverse">
-            <div class="image-placeholder">
+            <div class="image-placeholder spiral-staircase">
+                <img src="https://raw.githubusercontent.com/Rhizobium-gits/ADvanceLab-ts/main/Vision.png" alt="好奇心の螺旋階段" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                 <div class="image-caption">Spiral Staircase<br>好奇心の螺旋階段</div>
             </div>
             
@@ -663,13 +707,15 @@
                 </div>
             </div>
             
-            <div class="image-placeholder">
+            <div class="image-placeholder laboratory-structure">
+                <img src="https://raw.githubusercontent.com/Rhizobium-gits/ADvanceLab-ts/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202025-06-12%2018.07.47.png" alt="ラボ運営の構造" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                 <div class="image-caption">Laboratory Structure<br>ラボ運営の構造</div>
             </div>
         </div>
         
         <div class="content-section reverse">
-            <div class="image-placeholder">
+            <div class="image-placeholder space-migration">
+                <img src="https://raw.githubusercontent.com/Rhizobium-gits/ADvanceLab-ts/main/SpaceMigration.jpeg" alt="宇宙移住の展望" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                 <div class="image-caption">Space Migration<br>宇宙移住の展望</div>
             </div>
             
